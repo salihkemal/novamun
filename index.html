@@ -87,9 +87,7 @@
   <title>NOVA - To the Celestials</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-</head>
-<body class="bg-black text-white font-sans">
-  <!-- Sticky Header (Logo) -->
+<!-- Sticky Header (Logo) -->
 <header class="sticky top-0 z-50 bg-[#d1d1d1] shadow-md">
   <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
     <!-- Logo -->
@@ -98,17 +96,139 @@
       <span class="text-black text-xl font-semibold">NovaMUN</span>
     </a>
 
-    <!-- Menü Linkleri -->
-    <nav class="hidden md:flex space-x-6">
-      <a href="#page1" class="text-black hover:text-indigo-400 transition">Nova</a>
-      <a href="#page2" class="text-black hover:text-indigo-400 transition">Our Mission</a>
-      <a href="#page3" class="text-black hover:text-indigo-400 transition">Committees</a>
-      <a href="#page4" class="text-black hover:text-indigo-400 transition">The Great War</a>
-      <a href="#page5" class="text-black hover:text-indigo-400 transition">Why Nova</a>
-      <a href="#page6" class="text-black hover:text-indigo-400 transition">Secretary General</a>
-    </nav>
+    <div class="flex items-center space-x-4 md:space-x-6">
+      <!-- Mobil Menü Butonu -->
+      <button id="mobile-menu-button" class="md:hidden text-black focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+
+      <!-- Menü Linkleri -->
+      <nav id="main-nav" class="hidden md:flex space-x-6">
+        <a href="#page1" class="nav-link text-black hover:text-indigo-400 transition">Nova</a>
+        <a href="#page2" class="nav-link text-black hover:text-indigo-400 transition">Our Mission</a>
+        <a href="#page3" class="nav-link text-black hover:text-indigo-400 transition">Committees</a>
+        <a href="#page4" class="nav-link text-black hover:text-indigo-400 transition">The Great War</a>
+        <a href="#page5" class="nav-link text-black hover:text-indigo-400 transition">Why Nova</a>
+        <a href="#page6" class="nav-link text-black hover:text-indigo-400 transition">Secretary General</a>
+      </nav>
+
+      <!-- Apply Butonu -->
+      <a href="apply.html" class="apply-btn hidden md:flex items-center px-4 py-2 md:px-5 md:py-2 text-sm font-semibold whitespace-nowrap ml-2 md:ml-4 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-md">
+        Apply Now
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobil Menü -->
+  <div id="mobile-menu" class="hidden md:hidden bg-[#d1d1d1] w-full px-4 pb-4">
+    <div class="flex flex-col space-y-3">
+      <a href="#page1" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">Nova</a>
+      <a href="#page2" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">Our Mission</a>
+      <a href="#page3" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">Committees</a>
+      <a href="#page4" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">The Great War</a>
+      <a href="#page5" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">Why Nova</a>
+      <a href="#page6" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">Secretary General</a>
+      <a href="apply.html" class="apply-btn flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-full font-medium mt-2 transition-all duration-300 transform hover:scale-105">
+        Apply Now
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </a>
+    </div>
   </div>
 </header>
+
+<style>
+  /* Buton Animasyonları */
+  .apply-btn {
+    background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .apply-btn:hover {
+    box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+  }
+
+  /* Aktif Sayfa Stili */
+  .nav-link.active {
+    color: #4f46e5;
+    font-weight: 600;
+    position: relative;
+  }
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #4f46e5;
+    border-radius: 2px;
+  }
+
+  /* Mobil Menü Animasyonu */
+  #mobile-menu {
+    transition: all 0.3s ease-out;
+    max-height: 0;
+    overflow: hidden;
+  }
+  #mobile-menu.show {
+    max-height: 500px;
+  }
+</style>
+
+<script>
+  // Mobil Menü Toggle
+  document.getElementById('mobile-menu-button').addEventListener('click', function() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+    menu.classList.toggle('show');
+  });
+
+  // Aktif Sayfa Takibi
+  document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.hash || '#page1';
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+      if(link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+      
+      // Scroll sırasında aktif sayfayı güncelle
+      link.addEventListener('click', function() {
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Sayfa scroll'unda aktif linki güncelle
+    window.addEventListener('scroll', function() {
+      const sections = document.querySelectorAll('section[id^="page"]');
+      let currentSection = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.scrollY >= sectionTop - 200) {
+          currentSection = '#' + section.id;
+        }
+      });
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if(link.getAttribute('href') === currentSection) {
+          link.classList.add('active');
+        }
+      });
+    });
+  });
+</script>
 
 
   </script>
@@ -127,7 +247,7 @@
       NOVA
     </h1>
     <p class="text-2xl tracking-widest text-purple-100">TO THE CELESTIALS</p>
-    <p class="text-sm tracking-widest text-purple-100 mt-2">NOVA MODEL UNITED CONFERENCE</p>
+    <p class="text-sm tracking-widest text-purple-100 mt-2">NOVA MODEL UNITED NATIONS CONFERENCE</p>
     <p class="text-sm tracking-widest text-purple-100">JUNE 28-29-30, 2025</p>
     
     <div class="mt-10">
@@ -183,7 +303,7 @@
 </style>
 
   <!-- Page 2 -->
-  <section id="page2" class="h-screen flex items-center justify-center px-10 bg-gradient-to-br from-[#4e2a8e] to-[#2d1060]" data-aos="fade-right">
+  <section id="page2" class="h-screen flex items-center justify-center px-10 bg-gradient-to-br from-[#4e2a8e] to-[#2d1060] text-white" data-aos="fade-right">
     <div class="flex items-center space-x-10 flex-col md:flex-row">
 <svg class="animate-spin-slow" width="300" height="300" viewBox="0 0 300 300">
   <g transform="translate(150,150)">
@@ -269,7 +389,7 @@
   </section>
 
   <!-- Page 3 -->
-  <section id="page3" class="min-h-screen px-6 py-12 bg-gradient-to-br from-[#6222A9] to-[#0f0520] space-y-10" data-aos="fade-up">
+  <section id="page3" class="min-h-screen px-6 py-12 bg-gradient-to-br from-[#6222A9] to-[#0f0520] text-white space-y-10" data-aos="fade-up">
     <h2 class="text-4xl text-center font-semibold mb-8">GENERAL ASSEMBLY COMMITTEES</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto"> <!-- 4 kolon olacak şekilde güncellendi -->
     
@@ -321,11 +441,7 @@
   <!-- Apply Butonu -->
   <div class="text-center mt-16" data-aos="fade-up" data-aos-delay="500">
     <h3 class="text-2xl mb-6 font-medium">Ready to join NOVAMUN 2025?</h3>
-    <a 
-      href="https://docs.google.com/forms/d/e/1FAIpQLSd3ddR7_s9bDksU6NtXAq-FTlg1KwEh977Eddv6QYg9ynR_Pg/viewform?usp=header" 
-      target="_blank" 
-      class="cta-button cta-primary inline-flex items-center px-8 py-4 text-lg font-bold transition-all hover:scale-105"
-    >
+    <a href="apply.html" class="cta-button cta-primary inline-flex items-center px-8 py-4 text-lg font-bold">
       <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
       </svg>
@@ -528,7 +644,7 @@
 </style>
 
   <!-- Page 6 -->
-  <section id="page6" class="relative min-h-screen px-6 py-12 overflow-hidden">
+  <section id="page6" class="relative min-h-screen px-6 py-12 overflow-hidden text-white">
     <!-- Parallax Arka Plan -->
   <div class="absolute inset-0 bg-[#6C66C6]">
     <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072')] bg-cover bg-center opacity-10"></div>
