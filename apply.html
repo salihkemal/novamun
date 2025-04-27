@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVAMUN 2025 - Application</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .role-card {
+      transition: all 0.3s ease;
+      transform: translateY(0);
+    }
+    .role-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .apply-btn {
+      background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+      transition: all 0.3s ease;
+    }
+    .apply-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(106, 17, 203, 0.6);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-[#0f0520] to-[#3a1a6a] text-white min-h-screen">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-[#d1d1d1] shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-2">
+        <img src="nova.png" alt="NovaMUN Logo" class="h-10 w-auto">
+        <span class="text-black text-xl font-semibold">NovaMUN</span>
+      </a>
+      <nav class="hidden md:flex space-x-6">
+        <a href="index.html" class="text-black hover:text-indigo-400 transition">Back to Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-12">
+    <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">NOVAMUN 2025 Application</h1>
+      <p class="text-xl text-white/80 max-w-2xl mx-auto">Select your preferred role to begin your application process</p>
+    </div>
+
+    <!-- Role Selection Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <!-- Delegation -->
+      <div class="role-card bg-[#6222A9]/80 p-8 rounded-xl border border-white/20 backdrop-blur-sm">
+        <div class="text-center mb-6">
+          <div class="w-20 h-20 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Delegation</h3>
+          <p class="text-white/80 mb-6">Represent a country and engage in diplomatic discussions. Perfect for first-time participants.</p>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8wXvUNjlgrOfiSzUDq3mWVHRNuilnk5m2m6rQ4k1o5-g-4g/viewform?usp=header" class="apply-btn inline-block px-6 py-3 rounded-full font-semibold text-white">
+            Apply as Delegate
+          </a>
+        </div>
+      </div>
+
+      <!-- Chair -->
+      <div class="role-card bg-[#6222A9]/80 p-8 rounded-xl border border-white/20 backdrop-blur-sm">
+        <div class="text-center mb-6">
+          <div class="w-20 h-20 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Chair Board</h3>
+          <p class="text-white/80 mb-6">Lead committee sessions and guide debates. Requires previous MUN experience.</p>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdIgPKRJczT3gUV7QCe_T1-IrP_YKo7yX_8ejYtLkZOL7KT4Q/viewform?usp=header" class="apply-btn inline-block px-6 py-3 rounded-full font-semibold text-white">
+            Apply as Chair
+          </a>
+        </div>
+      </div>
+
+      <!-- Board -->
+      <div class="role-card bg-[#6222A9]/80 p-8 rounded-xl border border-white/20 backdrop-blur-sm">
+        <div class="text-center mb-6">
+          <div class="w-20 h-20 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Delegate</h3>
+          <p class="text-white/80 mb-6">Represent a country and engage in diplomatic discussions. Perfect for first-time participants.</p>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSd3ddR7_s9bDksU6NtXAq-FTlg1KwEh977Eddv6QYg9ynR_Pg/viewform?usp=header" class="apply-btn inline-block px-6 py-3 rounded-full font-semibold text-white">
+            Apply for Board
+          </a>
+        </div>
+      </div>
+
+      <!-- Press -->
+      <div class="role-card bg-[#6222A9]/80 p-8 rounded-xl border border-white/20 backdrop-blur-sm">
+        <div class="text-center mb-6">
+          <div class="w-20 h-20 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Press Team</h3>
+          <p class="text-white/80 mb-6">Document the conference through photography, journalism, and social media.</p>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSefepVaor0OvScv2f-X5AAA-KNWwpDMaTQiEoHFXWk2HqKp6A/viewform?usp=header" class="apply-btn inline-block px-6 py-3 rounded-full font-semibold text-white">
+            Apply for Press
+          </a>
+        </div>
+      </div>
+
+      <!-- Admin -->
+      <div class="role-card bg-[#6222A9]/80 p-8 rounded-xl border border-white/20 backdrop-blur-sm">
+        <div class="text-center mb-6">
+          <div class="w-20 h-20 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Admin</h3>
+          <p class="text-white/80 mb-6">Support conference logistics and technical operations behind the scenes.</p>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfxRyW07BPCRxhzMTIb5D_Iq24qL5fo1RMXGLFIKkWnMDJJFQ/viewform?usp=header" class="apply-btn inline-block px-6 py-3 rounded-full font-semibold text-white">
+            Apply for Admin
+          </a>
+        </div>
+      </div>
+
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#1a1a1a] text-white py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+      <div class="flex flex-col items-center md:items-start">
+        <img src="nova.png" alt="NovaMUN Logo" class="w-24 h-auto mb-2">
+        <p class="text-lg font-semibold">NovaMUN 2025</p>
+        <p class="text-sm text-gray-400">To the Celestials</p>
+      </div>
+      <div class="text-center">
+        <h4 class="text-lg font-semibold mb-2">Quick Links</h4>
+        <ul class="space-y-1 text-sm text-gray-300">
+          <li><a href="index.html" class="hover:text-indigo-400 transition">Home</a></li>
+          <li><a href="index.html#page3" class="hover:text-indigo-400 transition">Committees</a></li>
+          <li><a href="index.html#page6" class="hover:text-indigo-400 transition">Contact</a></li>
+        </ul>
+      </div>
+      <div class="flex flex-col items-center md:items-end space-y-2">
+        <a href="https://instagram.com/novamun25" target="_blank" class="flex items-center space-x-2 hover:text-indigo-400 transition">
+          <img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram" />
+          <span>@novamun25</span>
+        </a>
+        <a href="mailto:novamunorg@gmail.com" class="flex items-center space-x-2 hover:text-indigo-400 transition">
+          <img src="https://img.icons8.com/ios-filled/24/ffffff/new-post.png" alt="Email" />
+          <span>novamunorg@gmail.com</span>
+        </a>
+      </div>
+    </div>
+    <div class="text-center text-sm text-gray-500 mt-6">
+      &copy; 2025 NovaMUN. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>
