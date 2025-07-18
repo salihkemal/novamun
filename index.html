@@ -1,769 +1,738 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maser Mentorluk - Kişiye Özel YKS Hazırlık Koçluğu</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #74C67A 0%, #1D9A6C 100%);
-            color: white;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #1C1C2E, #323252);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-        }
-
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
-
-        .cta-button {
-            background: linear-gradient(45deg, #1C1C2E, #323252);
-            color: white !important;
-            padding: 0.8rem 2rem !important;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #74C67A  0%, #1D9A6C 100%);
-            color: white;
-            padding: 120px 0 80px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="30" cy="30" r="1" fill="white" opacity="0.1"/><circle cx="70" cy="70" r="1" fill="white" opacity="0.1"/><circle cx="90" cy="20" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
-            animation: float 20s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-weight: 800;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            animation: slideInUp 1s ease-out;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            animation: slideInUp 1s ease-out 0.2s both;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 3rem;
-            animation: slideInUp 1s ease-out 0.4s both;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #0E4D64;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        /* Mentor Section */
-        .mentors {
-            padding: 80px 0;
-            background: #f8f9fa;
-            position: relative;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #0E4D64 , #1D9A6C);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-title p {
-            font-size: 1.1rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .mentor-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .mentor-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mentor-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(45deg, #1D9A6C, #74C67A);
-        }
-
-        .mentor-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
-        .mentor-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #74C67A , #1D9A6C);
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-            font-weight: bold;
-        }
-
-        .mentor-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .mentor-rank {
-            color: #ff6b6b;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .mentor-university {
-            color: #666;
-            margin-top: 0.5rem;
-        }
-
-        /* Packages Section */
-        .packages {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #74C67A  0%, #1D9A6C 100%);
-            color: white;
-        }
-
-        .package-card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .package-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.15);
-        }
-
-        .package-title {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #ffd700;
-        }
-
-        .package-price {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .package-duration {
-            opacity: 0.8;
-            margin-bottom: 2rem;
-        }
-
-        .package-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .package-features li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .package-features li:last-child {
-            border-bottom: none;
-        }
-
-        .package-features li i {
-            color: #ffd700;
-            margin-right: 0.5rem;
-        }
-
-        /* Testimonials */
-        .testimonials {
-            padding: 80px 0;
-            background: #f8f9fa;
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .testimonial-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            position: relative;
-        }
-
-        .testimonial-card::before {
-            content: '"';
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            font-size: 4rem;
-            color: #74C67A ;
-            font-weight: bold;
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 1.5rem;
-            color: #555;
-            line-height: 1.8;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .author-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #74C67A , #1D9A6C);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .author-info h4 {
-            margin-bottom: 0.2rem;
-            color: #333;
-        }
-
-        .author-info p {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        /* FAQ Section */
-        .faq {
-            padding: 80px 0;
-            background: white;
-        }
-
-        .faq-item {
-            background: #f8f9fa;
-            margin-bottom: 1rem;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .faq-question {
-            padding: 1.5rem;
-            background: #1D9A6C ;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-        }
-
-        .faq-question:hover {
-            background: #5a6fd8;
-        }
-
-        .faq-answer {
-            padding: 1.5rem;
-            color: #555;
-            line-height: 1.8;
-            display: none;
-        }
-
-        .faq-item.active .faq-answer {
-            display: block;
-        }
-
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg);
-        }
-
-        /* Footer */
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 3rem 0;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, #74C67A , #1D9A6C);
-            color: white;
-            border-radius: 50%;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-stats {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .mentor-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .testimonial-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animation utilities */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo">
-                <i class="fas fa-graduation-cap"></i> Maser Mentorluk
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Ana Sayfa</a></li>
-                <li><a href="#mentors">Mentörler</a></li>
-                <li><a href="#packages">Paketler</a></li>
-                <li><a href="#testimonials">Yorumlar</a></li>
-                <li><a href="#faq">S.S.S</a></li>
-            </ul>
-            <a href="satin-al.html" class="cta-button">
-                <i class="fas fa-rocket"></i> Hemen Başla
-            </a>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Yaptığımız hataları yapmayacağınızdan emin oluyoruz</h1>
-            <p>Giriş yapın ve başarıya giden ilk adımı atın. Kişiye özel YKS hazırlık koçluğu ile hedeflerinize ulaşın.</p>
-            <a href="#packages" class="cta-button" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
-                <i class="fas fa-play"></i> Mentörlüğe Başla
-            </a>
-            
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number">20+</span>
-                    <span class="stat-label">Başarılı Öğrenci</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">95%</span>
-                    <span class="stat-label">Başarı Oranı</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">10+</span>
-                    <span class="stat-label">Uzman Mentör</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Mentors Section -->
-    <section class="mentors" id="mentors">
-        <div class="container">
-            <div class="section-title">
-                <h2>Hem teoride hem pratikte başarılıyız</h2>
-                <p>Ekip arkadaşlarımızın her biri Maser Mentorluk eğitimini tamamlamış olmanın yanı sıra sınav salonunda da kendini kanıtlamış başarılı öğrencilerdir.</p>
-            </div>
-            
-            <div class="mentor-grid">
-                <div class="mentor-card fade-in">
-                    <div class="mentor-avatar">N</div>
-                    <div class="mentor-name">Nehir</div>
-                    <div class="mentor-rank">3. Sıra</div>
-                    <div class="mentor-university">Koç Üniversitesi</div>
-                </div>
-                
-                <div class="mentor-card fade-in">
-                    <div class="mentor-avatar">E</div>
-                    <div class="mentor-name">Eray</div>
-                    <div class="mentor-rank">18732. Sıra</div>
-                    <div class="mentor-university">Sakarya Üniversitesi</div>
-                </div>
-                
-                <div class="mentor-card fade-in">
-                    <div class="mentor-avatar">B</div>
-                    <div class="mentor-name">Eylül Başak</div>
-                    <div class="mentor-rank">29. Sıra</div>
-                    <div class="mentor-university">Boğaziçi Üniversitesi</div>
-                </div>
-                
-                <div class="mentor-card fade-in">
-                    <div class="mentor-avatar">O</div>
-                    <div class="mentor-name">Oğuz Usta</div>
-                    <div class="mentor-rank">882. Sıra</div>
-                    <div class="mentor-university">Boğaziçi Üniversitesi</div>
-                </div>
-                
-                <div class="mentor-card fade-in">
-                    <div class="mentor-avatar">M</div>
-                    <div class="mentor-name">Uğur Mert</div>
-                    <div class="mentor-rank">205. Sıra</div>
-                    <div class="mentor-university">Boğaziçi Üniversitesi</div>
-                </div>
-                
-                <div class="mentor-card fade-in">
-                    <div class="mentor-avatar">C</div>
-                    <div class="mentor-name">Cem</div>
-                    <div class="mentor-rank">88. Sıra</div>
-                    <div class="mentor-university">Bilkent Üniversitesi</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Packages Section -->
-    <section class="packages" id="packages">
-        <div class="container">
-            <div class="section-title">
-                <h2 style="color: #0E4D64;">Paketlerimiz</h2>
-                <p style="color: rgba(255,255,255,0.8);">Paketiniz 4 haftada bir şekilde yenilenir. Dilediğiniz zaman iptal edebilirsiniz!</p>
-            </div>
-            
-            <div class="package-card fade-in">
-                <div class="package-title">
-                    <i class="fas fa-star"></i> Sadece Mentörlük
-                </div>
-                <div class="package-price">2995₺</div>
-                <div class="package-duration">4 haftada bir</div>
-                
-                <ul class="package-features">
-                    <li><i class="fas fa-check"></i> Alanınızdan derece öğrencisi mentör</li>
-                    <li><i class="fas fa-check"></i> Haftada 1 süresi sınırsız Zoom görüşmesi</li>
-                    <li><i class="fas fa-check"></i> Haftada 1 gün telefon görüşmesi</li>
-                    <li><i class="fas fa-check"></i> Kişiye özel günlük program</li>
-                    <li><i class="fas fa-check"></i> Mobil App'e erişim</li>
-                </ul>
-                
-                <a href="#contact" class="cta-button" style="display: inline-block; margin-top: 1rem;">
-                    <i class="fas fa-shopping-cart"></i> Şimdi Satın Al
-                </a>
-                <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">İstediğin zaman iptal et.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <div class="section-title">
-                <h2>Maser Mentorluk için ne dediler?</h2>
-                <p>Bizimle birlikte sınava hazırlanıp başarıya ulaşmış öğrencilerimizi bizzat kendilerinden dinleyin!</p>
-            </div>
-            
-            <div class="testimonial-grid">
-                <div class="testimonial-card fade-in">
-                    <div class="testimonial-text">
-                        Benim her öğrenci gibi çok zorlandığım dönemler, kendimi umutsuz hissettiğim, artık yapamayacağım dediğim dönemler oldu. Ama mentörüm her gün benimle iletişime geçiyordu. Sizinle sürekli konuşan birinin olması, birinin sürekli size moral vermesi aslında sizin bu süreçte kendinizi toparlamanıza yardımcı oluyor.
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">T</div>
-                        <div class="author-info">
-                            <h4>Tibet Tuna Topçu</h4>
-                            <p>Öğrenci - 3853. Sıra (2023)</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card fade-in">
-                    <div class="testimonial-text">
-                        Mentörümle aramızda gayet iyi bir ilişki vardı. Ne zaman yardıma ihtiyacım olsa mesaj attığımda anında cevap veriyordu. Kendisi de geçen sene sınava girdiği için zaten her konuda destekçimdi diyebilirim.
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">Z</div>
-                        <div class="author-info">
-                            <h4>Zeynep Sude Tanrıverdi</h4>
-                            <p>Öğrenci - 9513. Sıra (2023)</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card fade-in">
-                    <div class="testimonial-text">
-                        Biliyorsunuz ki YKS çok uzun ve çok yorucu bir maraton. Ben de bu maratonu en sağlıklı şekilde bitirebilmek için bir desteğe ihtiyaç duydum ve mentörlük almaya başladım. Mentörlüğün beni çok rahatlattı. Çünkü aynı süreci sizinle beraber yürümüş birisiyle bu yolu yürümek hem çok güven verici hem de çok rahatlatıcı oldu.
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">Ö</div>
-                        <div class="author-info">
-                            <h4>Öykü Aksoy</h4>
-                            <p>Öğrenci - 955. Sıra (2023)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq" id="faq">
-        <div class="container">
-            <div class="section-title">
-                <h2>Sıkça Sorulan Sorular</h2>
-                <p>Mentörlük süreciyle ilgili merak ettikleriniz</p>
-            </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question">
-                    <span>Mentörlük nasıl işliyor?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    Size özel atanan mentörünüz ile haftada bir kez video görüşme yaparsınız. Ayrıca günlük programınız hazırlanır ve sürekli iletişim halinde olursunuz.
-                </div>
-            </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question">
-                    <span>Mentörler nasıl seçiliyor?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    Tüm mentörlerimiz YKS'de başarılı olmuş, deneyimli ve eğitimli kişilerdir. Size en uygun mentör, hedeflediğiniz bölüm ve kişilik özelliklerinize göre atanır.
-                </div>
-            </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question">
-                    <span>İptal etmek istersem ne olur?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    Dilediğiniz zaman mentörlüğünüzü iptal edebilirsiniz. Herhangi bir bağlayıcılığımız yoktur. 4 haftalık paket sistemi ile çalışıyoruz.
-                </div>
-            </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question">
-                    <span>Hangi sınıftan itibaren mentörlük alınabilir?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    11. sınıftan itibaren mentörlük hizmeti verebiliriz. Ne kadar erken başlarsanız, o kadar etkili bir hazırlık süreci geçirirsiniz.
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="social-links">
-                <a href="https://www.instagram.com/masermentorluk/"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="https://l.instagram.com/?u=https%3A%2F%2Fyoutube.com%2F%40masermentorluk%3Fsi%3DoMqAdA05TKyY74LQ%26fbclid%3DPAZXh0bgNhZW0CMTEAAacFXeebRmOFUmSxjABNFlbiO0zJL6tJ0iz47jWj-wEFBVFaZ9HlqMI8DZNN5g_aem_s8Ad7s36rJbr5b8ZYkz6Ng&e=AT3KQR2ZoKZXFCyjij1HGv35jXRV5kA5g_mlLv9wMdq9w3kWhu2T7HFN2DoZRUolue7IEd7QpWT46kYVkfZ3NoJGl3nuGYwMqsZIyFEE2vUs8tSzYlh4A8c"><i class="fab fa-youtube"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-            </div>
-            <p>&copy; 2025 Maser Mentorluk. Tüm hakları saklıdır.</p>
-            <p>Tam potansiyeline birlikte ulaşalım.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if
+  <style>
+      /* Ana CTA Stili */
+    .cta-button {
+      display: inline-block;
+      padding: 12px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* Ana Renkli Buton */
+    .cta-primary {
+      background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
+    }
+
+    /* İkincil Buton */
+    .cta-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    /* Hover Efektleri */
+    .cta-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(106, 17, 203, 0.6);
+    }
+
+    .cta-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Animasyonlu Buton (Opsiyonel) */
+    .cta-glow {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(106, 17, 203, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(106, 17, 203, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(106, 17, 203, 0); }
+    }
+
+    /* Yeni gradient arkaplan sınıfları */
+    .gradient-page1 {
+      background: linear-gradient(135deg, #3a1a6a 0%, #0f0520 100%);
+    }
+    .gradient-page2 {
+      background: linear-gradient(45deg, #4e2a8e 0%, #2d1060 100%);
+    }
+    .gradient-page3 {
+      background: linear-gradient(to right, #5c3d8e 0%, #3c1d6e 100%);
+    }
+    .gradient-page4 {
+      background: linear-gradient(135deg, #6222A9 0%, #3d106e 100%);
+    }
+    .gradient-page5 {
+      background: linear-gradient(to left, #6444B8 0%, #3d2a7a 100%);
+    }
+    .gradient-page6 {
+      background: linear-gradient(45deg, #6C66C6 0%, #4a44a6 100%);
+    }
+    
+    /* Animasyonlu gradient (opsiyonel) */
+    .gradient-animate {
+      background-size: 200% 200%;
+      animation: gradientMove 8s ease infinite;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOVA - To the Celestials</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+<!-- Sticky Header (Logo) -->
+<header class="sticky top-0 z-50 bg-[#d1d1d1] shadow-md">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#page1" class="flex items-center space-x-2">
+      <img src="nova.png" alt="NovaMUN Logo" class="h-10 w-auto">
+      <span class="text-black text-xl font-semibold">NovaMUN</span>
+    </a>
+
+    <div class="flex items-center space-x-4 md:space-x-6">
+      <!-- Mobil Menü Butonu -->
+      <button id="mobile-menu-button" class="md:hidden text-black focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+
+      <!-- Menü Linkleri -->
+      <nav id="main-nav" class="hidden md:flex space-x-6">
+        <a href="#page1" class="nav-link text-black hover:text-indigo-400 transition">Nova</a>
+        <a href="#page2" class="nav-link text-black hover:text-indigo-400 transition">Our Mission</a>
+        <a href="#page3" class="nav-link text-black hover:text-indigo-400 transition">Committees</a>
+        <a href="#page4" class="nav-link text-black hover:text-indigo-400 transition">TGNA</a>
+        <a href="#page5" class="nav-link text-black hover:text-indigo-400 transition">Why Nova</a>
+        <a href="#page6" class="nav-link text-black hover:text-indigo-400 transition">Secretaries General</a>
+      </nav>
+
+      <!-- Apply Butonu -->
+      <a href="apply.html" class="apply-btn hidden md:flex items-center px-4 py-2 md:px-5 md:py-2 text-sm font-semibold whitespace-nowrap ml-2 md:ml-4 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-md">
+        Apply Now
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobil Menü -->
+  <div id="mobile-menu" class="hidden md:hidden bg-[#d1d1d1] w-full px-4 pb-4">
+    <div class="flex flex-col space-y-3">
+      <a href="#page1" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">Nova</a>
+      <a href="#page2" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">Our Mission</a>
+      <a href="#page3" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">Committees</a>
+      <a href="#page4" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">TGNA</a>
+      <a href="#page5" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">Why Nova</a>
+      <a href="#page6" class="nav-link text-black hover:text-indigo-400 px-3 py-2 rounded transition">Secretaries General</a>
+      <a href="apply.html" class="apply-btn flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-full font-medium mt-2 transition-all duration-300 transform hover:scale-105">
+        Apply Now
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Buton Animasyonları */
+  .apply-btn {
+    background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .apply-btn:hover {
+    box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+  }
+
+  /* Aktif Sayfa Stili */
+  .nav-link.active {
+    color: #4f46e5;
+    font-weight: 600;
+    position: relative;
+  }
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #4f46e5;
+    border-radius: 2px;
+  }
+
+  /* Mobil Menü Animasyonu */
+  #mobile-menu {
+    transition: all 0.3s ease-out;
+    max-height: 0;
+    overflow: hidden;
+  }
+  #mobile-menu.show {
+    max-height: 500px;
+  }
+</style>
+
+<script>
+  // Mobil Menü Toggle
+  document.getElementById('mobile-menu-button').addEventListener('click', function() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+    menu.classList.toggle('show');
+  });
+
+  // Aktif Sayfa Takibi
+  document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.hash || '#page1';
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+      if(link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+      
+      // Scroll sırasında aktif sayfayı güncelle
+      link.addEventListener('click', function() {
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Sayfa scroll'unda aktif linki güncelle
+    window.addEventListener('scroll', function() {
+      const sections = document.querySelectorAll('section[id^="page"]');
+      let currentSection = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.scrollY >= sectionTop - 200) {
+          currentSection = '#' + section.id;
+        }
+      });
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if(link.getAttribute('href') === currentSection) {
+          link.classList.add('active');
+        }
+      });
+    });
+  });
+</script>
+
+
+  </script>
+
+  <!-- AOS Initialization -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init();</script>
+
+<!-- Page1 -->
+<section id="page1" class="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden">
+  <!-- Particle.js Container -->
+  <div id="particles-js" class="absolute inset-0 bg-gradient-to-br from-[#3a1a6a] to-[#0f0520]"></div>
+  
+  <div class="relative z-10 px-4" data-aos="zoom-in">
+    <h1 class="text-6xl md:text-8xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200 animate-gradient">
+      NOVA
+    </h1>
+    <p class="text-2xl tracking-widest text-purple-100">TO THE CELESTIALS</p>
+    <p class="text-sm tracking-widest text-purple-100 mt-2">NOVA MODEL UNITED NATIONS CONFERENCE</p>
+    <p class="text-sm tracking-widest text-purple-100">JUNE 28-29-30, 2025</p>
+    
+    <div class="mt-10">
+      <span class="text-xl font-semibold text-white/80">#tothecelestials</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Particle.js Config
+  document.addEventListener('DOMContentLoaded', function() {
+    particlesJS('particles-js', {
+      "particles": {
+        "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": {
+          "value": 0.5,
+          "random": true,
+          "anim": { "enable": true, "speed": 1, "opacity_min": 0.1 }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": { "enable": true, "speed": 2, "size_min": 0.1 }
+        },
+        "line_linked": { "enable": false },
+        "move": {
+          "enable": true,
+          "speed": 1,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out"
+        }
+      },
+      "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } }
+    });
+  });
+</script>
+
+<style>
+  /* Gradient Animasyonu */
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradientShift 6s ease infinite;
+  }
+</style>
+
+  <!-- Page 2 -->
+  <section id="page2" class="h-screen flex items-center justify-center px-10 bg-gradient-to-br from-[#4e2a8e] to-[#2d1060] text-white" data-aos="fade-right">
+    <div class="flex items-center space-x-10 flex-col md:flex-row">
+<svg class="animate-spin-slow" width="300" height="300" viewBox="0 0 300 300">
+  <g transform="translate(150,150)">
+    <!-- Merkezdeki daire -->
+    <circle cx="0" cy="0" r="48" fill="white" />
+
+    <!-- Işın tanımı (dar açılı ikizkenar üçgen) -->
+    <defs>
+      <!-- Üçgenin tabanı daireye yapışık, sivri ucu dışa doğru (0,-80) -->
+      <!-- Taban 8 birim, uç 40 birim uzakta -->
+      <polygon id="ray" points="-9,20 9,20 0,-80" fill="white" />
+    </defs>
+
+    <!-- 35 tane ışını 10.2857° aralıkla döndürerek yerleştir -->
+    <g>
+      <!-- 35 üçgen -->
+      <!-- Döndürerek hizala -->
+      <!-- Bunları döngü yerine elle yazıyorum sen kolayca yapıştır diye -->
+      <use href="#ray" transform="rotate(0)" />
+      <use href="#ray" transform="rotate(10.2857)" />
+      <use href="#ray" transform="rotate(20.5714)" />
+      <use href="#ray" transform="rotate(30.8571)" />
+      <use href="#ray" transform="rotate(41.1428)" />
+      <use href="#ray" transform="rotate(51.4285)" />
+      <use href="#ray" transform="rotate(61.7142)" />
+      <use href="#ray" transform="rotate(72)" />
+      <use href="#ray" transform="rotate(82.2857)" />
+      <use href="#ray" transform="rotate(92.5714)" />
+      <use href="#ray" transform="rotate(102.8571)" />
+      <use href="#ray" transform="rotate(113.1428)" />
+      <use href="#ray" transform="rotate(123.4285)" />
+      <use href="#ray" transform="rotate(133.7142)" />
+      <use href="#ray" transform="rotate(144)" />
+      <use href="#ray" transform="rotate(154.2857)" />
+      <use href="#ray" transform="rotate(164.5714)" />
+      <use href="#ray" transform="rotate(174.8571)" />
+      <use href="#ray" transform="rotate(185.1428)" />
+      <use href="#ray" transform="rotate(195.4285)" />
+      <use href="#ray" transform="rotate(205.7142)" />
+      <use href="#ray" transform="rotate(216)" />
+      <use href="#ray" transform="rotate(226.2857)" />
+      <use href="#ray" transform="rotate(236.5714)" />
+      <use href="#ray" transform="rotate(246.8571)" />
+      <use href="#ray" transform="rotate(257.1428)" />
+      <use href="#ray" transform="rotate(267.4285)" />
+      <use href="#ray" transform="rotate(277.7142)" />
+      <use href="#ray" transform="rotate(288)" />
+      <use href="#ray" transform="rotate(298.2857)" />
+      <use href="#ray" transform="rotate(308.5714)" />
+      <use href="#ray" transform="rotate(318.8571)" />
+      <use href="#ray" transform="rotate(329.1428)" />
+      <use href="#ray" transform="rotate(339.4285)" />
+      <use href="#ray" transform="rotate(349.7142)" />
+    </g>
+  </g>
+</svg>
+<style>
+  /* Yavaş dönme animasyonu */
+  .animate-spin-slow {
+    animation: spin 20s linear infinite;
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+</style>
+
+      <p class="text-3xl max-w-md text-center md:text-left">WE AIM TO SERVE YOU THE BEST EXPERIENCE</p>
+    </div>
+	
+	<style>
+  /* Gradient Animasyonu */
+  @keyframes gradientShift {
+    100% { background-position: 50% 0%; }
+    50% { background-position: 50% 100%; }
+    0% { background-position: 50% 0%; }
+  }
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradientShift 6s ease infinite;
+  }
+</style>
+  </section>
+
+  <!-- Page 3 -->
+  <section id="page3" class="min-h-screen px-6 py-12 bg-gradient-to-br from-[#6222A9] to-[#0f0520] text-white space-y-10" data-aos="fade-up">
+    <h2 class="text-4xl text-center font-semibold mb-8">GENERAL ASSEMBLY COMMITTEES</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto"> <!-- 4 kolon olacak şekilde güncellendi -->
+    
+    <!-- F.U.N. Komitesi -->
+    <div class="bg-[#6222A9] p-6 rounded-lg shadow-md text-center hover:bg-[#7a2dd4] transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+      <div class="icon-container mb-4">
+        <svg class="w-16 h-16 mx-auto text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 12h1m-5 0h1m5-6h1m-5 0h1m-5 18h1m5 0h1" opacity="0.5"></path>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2">F.U.N. (Future United Nations)</h3>
+      <p class="mb-4 text-white/90">Future UN committees will address key issues like climate change, global health, cybersecurity, AI ethics, and migration, focusing on global solutions for sustainability, peace, and equity.</p>
+    </div>
+
+    <!-- UNODC Komitesi -->
+    <div class="bg-[#6222A9] p-6 rounded-lg shadow-md text-center hover:bg-[#7a2dd4] transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+      <div class="icon-container mb-4">
+        <svg class="w-16 h-16 mx-auto text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2">UNODC</h3>
+      <p class="mb-4 text-white/90">(United Nations Office on Drugs and Crime) helps countries fight drugs, crime, and terrorism by offering support, expertise, and promoting international cooperation.</p>
+    </div>
+
+    <!-- UNDP Komitesi -->
+    <div class="bg-[#6222A9] p-6 rounded-lg shadow-md text-center hover:bg-[#7a2dd4] transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+      <div class="icon-container mb-4">
+        <svg class="w-16 h-16 mx-auto text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2">IMF</h3>
+      <p class="mb-4 text-white/90">The UN IMF Committee promotes global financial stability, fights money laundering, and supports transparent, cooperative economic policies. It also encourages international efforts to prevent illegal financial activities.</p>
+    </div>
+
+    <!-- Yeni Eklenen 4. Komite (UNICEF Örneği) -->
+    <div class="bg-[#6222A9] p-6 rounded-lg shadow-md text-center hover:bg-[#7a2dd4] transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
+      <div class="icon-container mb-4">
+        <svg class="w-16 h-16 mx-auto text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2">BMKP</h3>
+      <p class="mb-4 text-white/90">Birleşmiş Milletler Kalkınma Programı (UNDP), yoksullukla mücadele, sürdürülebilir kalkınma, eğitim,gençlerin istihdamı ,sağlık ve çevre gibi alanlarda ülkeleri destekleyen bir kuruluştur.</p>
+    </div>
+  </div>
+  <!-- Apply Butonu -->
+  <div class="text-center mt-16" data-aos="fade-up" data-aos-delay="500">
+    <h3 class="text-2xl mb-6 font-medium">Ready to join NOVAMUN 2025?</h3>
+    <a href="apply.html" class="cta-button cta-primary inline-flex items-center px-8 py-4 text-lg font-bold">
+      <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+      </svg>
+      APPLY NOW
+    </a>
+    <p class="mt-4 text-sm opacity-80">Early bird discount available until June 7th</p>
+  </div>
+		<style>
+    /* Buton Stilleri */
+  .cta-button {
+    display: inline-block;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .cta-primary {
+    background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
+  }
+  
+  .cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(106, 17, 203, 0.6);
+  }
+
+  /* Responsive Ayarlar */
+  @media (max-width: 768px) {
+    #page3 .cta-button {
+      padding: 12px 24px;
+      font-size: 16px;
+    }
+  }
+  /* Gradient Animasyonu */
+  @keyframes gradientShift {
+    100% { background-position: 50% 0%; }
+    50% { background-position: 50% 100%; }
+    0% { background-position: 50% 0%; }
+  }
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradientShift 6s ease infinite;
+  }
+</style>
+  </section>
+
+<!-- Page 4 -->
+<section id="page4" class="relative min-h-screen px-6 py-12 flex items-center justify-center overflow-hidden">
+  <!-- Arkaplan Resmi (Koyulaştırılmış) -->
+  <div class="absolute inset-0">
+    <img src="tbmm.jpg" alt="TBMM Background" class="w-full h-full object-cover opacity-40">
+  </div>
+  
+  <!-- Mor Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-br from-[#3d106ecc] via-[#6222A9cc] to-[#0f0520cc]"></div>
+  
+  <!-- İçerik Container -->
+  <div class="relative z-10 max-w-3xl mx-4 text-center space-y-6 text-white"> <!-- text-white eklendi -->
+    <h2 class="text-3xl md:text-4xl font-bold" data-aos="fade-down">
+      Historical Crisis:<br>The Turkish Grand National Assembly
+    </h2>
+    
+    <p class="leading-relaxed" data-aos="fade-up" data-aos-delay="100">
+      The Turkish Grand National Assembly is the legislative body of the Republic of Türkiye. It was established on April 23, 1920, with the aim of resisting the occupation of the Ottoman Empire by the Allied Powers
+
+<br>In this committee, we experience how the process of corruption within a party that has become a monopoly takes place from the perspective of dozens of deputies who had to stay in a single party and our National Chef İsmet İnönü.
+    </p>
+  </div>
+
+  <style>
+    /* Özel Stiller */
+    #page4 {
+      --gradient-start: #3d106ecc;
+      --gradient-mid: #6222A9cc;
+      --gradient-end: #0f0520cc;
+    }
+    
+    /* Yazı rengi garantisi */
+    #page4 h2,
+    #page4 p {
+      color: white !important;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Okunabilirlik için gölge */
+    }
+    
+    /* Gradient Overlay */
+    #page4 div.absolute.bg-gradient-to-br {
+      background: linear-gradient(
+        135deg,
+        var(--gradient-start) 0%,
+        var(--gradient-mid) 50%,
+        var(--gradient-end) 100%
+      );
+      mix-blend-mode: multiply;
+    }
+    
+    /* Resim Koyulaştırma */
+    #page4 img {
+      filter: brightness(0.6) contrast(1.2);
+    }
+    
+    /* Mobil Optimizasyon */
+    @media (max-width: 768px) {
+      #page4 {
+        --gradient-start: #3d106edd;
+        --gradient-end: #0f0520dd;
+      }
+      #page4 img {
+        opacity: 0.3;
+      }
+    }
+  </style>
+</section>
+
+<!-- Page 5 -->
+<section id="page5" class="min-h-screen px-6 py-12 bg-gradient-to-br from-[#6444B8] to-[#3d2a7a] text-white flex items-center justify-center">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+    <!-- Sol Sütun -->
+    <div class="space-y-2">
+      <h2 class="text-5xl font-bold mb-8">How did the idea of NOVA start?</h2>
+      <div class="h-1 w-20 bg-white/50 mb-6"></div> <!-- Alt çizgi -->
+    </div>
+
+    <!-- Sağ Sütun -->
+    <div class="space-y-10">
+      <!-- Alt Başlık 1 -->
+      <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20">
+        <h3 class="text-2xl font-semibold mb-4 flex items-center">
+          <svg class="w-6 h-6 mr-2 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          Our Friendship and Past
+        </h3>
+        <p class="text-white/90 leading-relaxed">
+          We are basically some teenagers who met in Model United Nations conferences. We were dreaming of this for a long time, and when that time came up, we said "why not?"
+        </p>
+      </div>
+
+      <!-- Alt Başlık 2 -->
+      <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20">
+        <h3 class="text-2xl font-semibold mb-4 flex items-center">
+          <svg class="w-6 h-6 mr-2 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          We Had a Mission
+        </h3>
+        <p class="text-white/90 leading-relaxed">
+          After all of those conferences and experiences, we checked the feedbacks came from us and other delegates. It was clear that there were issues that had to be solved. That led us to determine what would be our mission: PREPARING THE CONFERENCES WITH EQUALITY!
+        </p>
+      </div>
+
+      <!-- Alt Başlık 3 -->
+      <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20">
+        <h3 class="text-2xl font-semibold mb-4 flex items-center">
+          <svg class="w-6 h-6 mr-2 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          Why "Nova"?
+        </h3>
+        <p class="text-white/90 leading-relaxed">
+          Because in general use, nova represents newness and fresh starts, just like our mission! It symbolizes the bright beginning we aim to create in the MUN world.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Alt Başlık Animasyonları */
+  #page5 div.bg-white\/10 {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+  }
+  #page5 div.bg-white\/10:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    background-color: rgba(255,255,255,0.15);
+  }
+
+  /* Responsive Ayarlar */
+  @media (max-width: 768px) {
+    #page5 h2.text-5xl {
+      font-size: 2.5rem;
+    }
+    #page5 h3.text-2xl {
+      font-size: 1.5rem;
+    }
+  }
+    /* Gradient Animasyonu */
+  @keyframes gradientShift {
+    100% { background-position: 50% 0%; }
+    50% { background-position: 50% 100%; }
+    0% { background-position: 50% 0%; }
+  }
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradientShift 6s ease infinite;
+  }
+</style>
+
+  <!-- Page 6 -->
+  <section id="page6" class="relative min-h-screen px-6 py-12 overflow-hidden text-white">
+    <!-- Parallax Arka Plan -->
+  <div class="absolute inset-0 bg-[#6C66C6]">
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072')] bg-cover bg-center opacity-10"></div>
+  </div>
+
+    <img src="https://via.placeholder.com/300" alt="Secretary General" class="w-72 h-auto rounded-lg shadow-lg" />
+    <div class="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10">
+      <h2 class="text-3xl font-bold mb-4">Letter from Secretary General</h2>
+      <p>
+        Dear participants,<br><br>
+        It is both a profound privilege and a sincere pleasure to extend my warmest welcome to you at this esteemed conference, NovaMUN 2025.<br><br>
+        My name is Serra Demir, and I am truly honoured to be a part of this journey. Throughout my past MUN experiences, I have taken on various roles — each of them taught me unforgettable lessons and shaped some of the most valuable days of my journey.<br><br>
+        I always say, "MUN is for everyone," and I wholeheartedly believe in that. When I first started, I was nervous too. There were even moments when I wanted to give up — simply because I didn’t trust myself enough. But here’s what I’ve learned: You don’t have to be the best in the room. What truly matters is striving to become the best version of yourself.<br><br>
+        After all, a caterpillar can never turn into a butterfly unless it weaves its cocoon with its very own effort.<br><br>
+        And please, never forget — for us, you come first. Not some so-called “career” no one really cares about. :)<br><br>
+        Until then, take care of yourselves — see you in June!
+      </p>
+    </div>
+  </section>
+<footer class="bg-[#1a1a1a] text-white py-8 mt-16">
+  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+    
+    <!-- Logo ve isim -->
+    <div class="flex flex-col items-center md:items-start">
+      <img src="nova.png" alt="NovaMUN Logo" class="w-24 h-auto mb-2">
+      <p class="text-lg font-semibold">NovaMUN 2025</p>
+      <p class="text-sm text-gray-400">To the Celestials</p>
+    </div>
+
+    <!-- Bağlantılar -->
+    <div class="text-center">
+      <h4 class="text-lg font-semibold mb-2">Quick Links</h4>
+      <ul class="space-y-1 text-sm text-gray-300">
+        <li><a href="#page1" class="hover:text-indigo-400 transition">Home</a></li>
+        <li><a href="#page2" class="hover:text-indigo-400 transition">Our Mission</a></li>
+        <li><a href="#page3" class="hover:text-indigo-400 transition">Committees</a></li>
+        <li><a href="#page4" class="hover:text-indigo-400 transition">TGNA</a></li>
+        <li><a href="#page5" class="hover:text-indigo-400 transition">Why Nova</a></li>
+        <li><a href="#page6" class="hover:text-indigo-400 transition">Secretaries General</a></li>
+      </ul>
+    </div>
+
+    <!-- Sosyal ve iletişim -->
+    <div class="flex flex-col items-center md:items-end space-y-2">
+      <a href="https://instagram.com/novamun25" target="_blank" class="flex items-center space-x-2 hover:text-indigo-400 transition">
+        <img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram" />
+        <span>@novamun25</span>
+      </a>
+      <a href="mailto:novamunorg@gmail.com" class="flex items-center space-x-2 hover:text-indigo-400 transition">
+        <img src="https://img.icons8.com/ios-filled/24/ffffff/new-post.png" alt="Email" />
+        <span>novamunorg@gmail.com</span>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="text-center text-sm text-gray-500 mt-6">
+    &copy; 2025 NovaMUN. All rights reserved.
+  </div>
+</footer>
+<script>
+  // Basit Scroll Animasyonu
+  const animateOnScroll = () => {
+    const elements = document.querySelectorAll('[data-animate]');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(entry.target.dataset.animate);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    elements.forEach(el => observer.observe(el));
+  };
+
+  window.addEventListener('DOMContentLoaded', animateOnScroll);
+</script>
+
+<!-- Kullanım Örneği -->
+<div data-animate="animate-fadeIn" class="opacity-0 transition-opacity duration-500">
+  <!-- İçerik -->
+</div>
+
+<style>
+  .animate-fadeIn { opacity: 1 !important; }
+</style>
+
+
+</body>
+</html>
