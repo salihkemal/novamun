@@ -28,9 +28,13 @@ jobs:
       run:
         working-directory: evolve/scripts
     env:
+      # Set ONE of these as a repo secret. With only GEMINI_API_KEY, Gemini is used.
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      EVOLVE_PROVIDER: ${{ vars.EVOLVE_PROVIDER }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      EVOLVE_MODEL: ${{ vars.EVOLVE_MODEL || 'claude-opus-5-5' }}
+      EVOLVE_MODEL: ${{ vars.EVOLVE_MODEL }}
+      EVOLVE_FALLBACK_MODELS: ${{ vars.EVOLVE_FALLBACK_MODELS }}
       EVOLVE_EFFORT: ${{ vars.EVOLVE_EFFORT || 'high' }}
       EVOLVE_QUIET: ${{ vars.EVOLVE_QUIET || 'improvise' }}
       EVOLVE_OUT: ${{ runner.temp }}/evolve

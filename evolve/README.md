@@ -40,7 +40,7 @@ ziyaretçi ──► "Siteyi değiştir" (shell.js) ──► GitHub Issue [feed
 
 ## Kurulum (bir kerelik)
 
-1. **Secret:** Repo → Settings → Secrets and variables → Actions → `ANTHROPIC_API_KEY`.
+1. **Secret:** Repo → Settings → Secrets and variables → Actions → **`GEMINI_API_KEY`** (ya da `ANTHROPIC_API_KEY`). Sadece Gemini anahtarı varsa Gemini kullanılır. Anahtarı asla dosyaya yazma.
 2. **Etiket:** `feedback` etiketi issue şablonuyla otomatik eklenir; etiket yoksa Issues → Labels'tan oluştur.
 3. **Workflow izni:** Settings → Actions → General → Workflow permissions → *Read and write*.
 4. Bu dalı `main`'e birleştir (zamanlanmış workflow'lar sadece varsayılan dalda çalışır).
@@ -49,8 +49,10 @@ ziyaretçi ──► "Siteyi değiştir" (shell.js) ──► GitHub Issue [feed
 ### İsteğe bağlı değişkenler (Settings → Variables)
 | Değişken | Varsayılan | |
 |---|---|---|
-| `EVOLVE_MODEL` | `claude-opus-5-5` | Kullanılan model |
-| `EVOLVE_EFFORT` | `high` | `low` … `max` — düşük = ucuz |
+| `EVOLVE_PROVIDER` | anahtara göre | `gemini` / `anthropic` |
+| `EVOLVE_MODEL` | `gemini-flash-latest` / `claude-opus-5-5` | Kullanılan model |
+| `EVOLVE_FALLBACK_MODELS` | `gemini-2.5-flash,gemini-flash-lite-latest` | Gemini 503/429 verirse sırayla denenir |
+| `EVOLVE_EFFORT` | `high` | Sadece Claude: `low` … `max` |
 | `EVOLVE_QUIET` | `improvise` | Yorum yoksa: `improvise` (kendi küçük fikri) / `skip` (o gün değişmez) |
 | `EVOLVE_SITE_URL` | `https://novamun.org/evolve/` | Issue cevaplarındaki link |
 
@@ -59,7 +61,7 @@ ziyaretçi ──► "Siteyi değiştir" (shell.js) ──► GitHub Issue [feed
 ```bash
 cd evolve/scripts && npm ci
 node validate.mjs ../index.html                        # anayasa kontrolü
-ANTHROPIC_API_KEY=… GITHUB_TOKEN=… node evolve.mjs --dry-run   # hiçbir şey yazmadan bir günü dene
+GEMINI_API_KEY=… node evolve.mjs --dry-run   # hiçbir şey yazmadan bir günü dene
 python3 -m http.server -d ..                           # http://localhost:8000
 ```
 

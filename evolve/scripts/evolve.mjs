@@ -6,9 +6,11 @@
 //   node evolve.mjs --notify   -> after the commit is pushed, reply to / close the handled issues
 //
 // Env: ANTHROPIC_API_KEY, GITHUB_TOKEN, GITHUB_REPOSITORY (owner/repo, optional; falls back to config.json)
-//      EVOLVE_MODEL (default claude-opus-5-5), EVOLVE_EFFORT (default high),
+//      GEMINI_API_KEY (instead of ANTHROPIC_API_KEY to use Gemini), EVOLVE_PROVIDER (anthropic | gemini),
+//      EVOLVE_MODEL (default claude-opus-5-5 / gemini-pro-latest), EVOLVE_EFFORT (Claude only, default high),
 //      EVOLVE_QUIET ("improvise" | "skip", default improvise), EVOLVE_OUT (where run results go), COMMIT_SHA
 import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI } from "@google/genai";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -21,7 +23,12 @@ const config = JSON.parse(readFileSync(path.join(siteDir, "config.json"), "utf8"
 const [owner, repo] = (process.env.GITHUB_REPOSITORY || `${config.owner}/${config.repo}`).split("/");
 const outDir = process.env.EVOLVE_OUT || path.join(tmpdir(), "evolve");
 const resultFile = path.join(outDir, "result.json");
-const MODEL = process.env.EVOLVE_MODEL || "claude-opus-5-5";
+const PROVIDER = process.env.EVOLVE_PROVIDER ||
+  (process.env.GEMINI_API_KEY && !process.env.ANTHROPIC_API_KEY ? "gemini" : "anthropic");
+const MODEL = process.env.EVOLVE_MODEL || (PROVIDER === "gemini" ? "gemini-flash-latest" : "claude-opus-5-5");
+// Gemini: tried in order when a model is overloaded (503) or out of quota (429).
+const GEMINI_FALLBACKS = (process.env.EVOLVE_FALLBACK_MODELS || "gemini-2.5-flash,gemini-flash-lite-latest")
+  .split(",").map((m) => m.trim()).filter(Boolean);
 const EFFORT = process.env.EVOLVE_EFFORT || "high";
 const QUIET = process.env.EVOLVE_QUIET || "improvise";
 const IGNORE_LABEL = "evolve-ignore";
@@ -200,6 +207,8 @@ function parseResponse(text, feedbackNumbers) {
   return { html, title, summary, addressed, declined, errors };
 }
 
+// Each provider returns { text, stop: "ok" | "refusal" | "truncated", model, usage, assistant }.
+// `assistant` is what gets appended to `messages` before a retry.
 async function askClaude(messages) {
   const client = new Anthropic();
   const stream = client.beta.messages.stream({
@@ -216,8 +225,68 @@ async function askClaude(messages) {
     .filter((b) => b.type === "text")
     .map((b) => b.text)
     .join("");
-  return { message, text };
+  const stop = message.stop_reason === "refusal" ? "refusal" : message.stop_reason === "max_tokens" ? "truncated" : "ok";
+  return {
+    text, stop, model: message.model, assistant: message.content,
+    usage: `in=${message.usage.input_tokens} out=${message.usage.output_tokens}`,
+  };
 }
+
+async function askGemini(messages) {
+  const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+    apiVersion: "v1beta",
+    httpOptions: { timeout: 240_000 }, // a hung stream fails over instead of eating the job
+  });
+  const contents = messages.map((m) => ({
+    role: m.role === "assistant" ? "model" : "user",
+    parts: [{ text: typeof m.content === "string" ? m.content : m.content.filter((b) => b.type === "text").map((b) => b.text).join("") }],
+  }));
+  const models = [...new Set([MODEL, ...GEMINI_FALLBACKS])];
+  let lastErr;
+  for (const model of models) {
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        return await geminiOnce(ai, model, contents);
+      } catch (err) {
+        lastErr = err;
+        const status = err?.status;
+        console.log(`  ${model}: ${status ?? err.message} (deneme ${attempt})`);
+        if (status === 500 || status === 503 || status === undefined) { // undefined = timeout / network
+          if (attempt < 3) await new Promise((r) => setTimeout(r, attempt * 15_000));
+          continue;
+        }
+        if (status === 429 || status === 404) break; // quota / unknown model -> next model
+        throw err;
+      }
+    }
+  }
+  throw lastErr;
+}
+
+async function geminiOnce(ai, model, contents) {
+  const stream = await ai.models.generateContentStream({
+    model,
+    contents,
+    config: { systemInstruction: systemPrompt(), maxOutputTokens: 65536 },
+  });
+  let text = "", last;
+  for await (const chunk of stream) {
+    text += chunk.text ?? "";
+    last = chunk;
+  }
+  const reason = last?.candidates?.[0]?.finishReason;
+  const blocked = last?.promptFeedback?.blockReason;
+  const stop = blocked || ["SAFETY", "PROHIBITED_CONTENT", "BLOCKLIST", "SPII", "RECITATION"].includes(reason)
+    ? "refusal" : reason === "MAX_TOKENS" ? "truncated" : "ok";
+  const u = last?.usageMetadata || {};
+  return {
+    text, stop, model: last?.modelVersion || model, assistant: text,
+    usage: `in=${u.promptTokenCount} out=${u.candidatesTokenCount} finish=${reason ?? blocked}`,
+  };
+}
+
+const ask = PROVIDER === "gemini" ? askGemini : askClaude;
 
 // ---------- Main steps ----------
 async function evolve() {
@@ -240,18 +309,17 @@ async function evolve() {
 
   let parsed;
   for (let attempt = 1; attempt <= 3; attempt++) {
-    const { message, text } = await askClaude(messages);
-    console.log(`Deneme ${attempt}: stop_reason=${message.stop_reason}, model=${message.model}, ` +
-      `in=${message.usage.input_tokens} out=${message.usage.output_tokens}`);
-    if (message.stop_reason === "refusal") {
-      console.log("Model bugünkü isteği reddetti; değişiklik yok.", message.stop_details ?? "");
+    const r = await ask(messages);
+    console.log(`Deneme ${attempt}: ${PROVIDER} model=${r.model} stop=${r.stop} ${r.usage}`);
+    if (r.stop === "refusal") {
+      console.log("Model bugünkü isteği reddetti; değişiklik yok.");
       return writeResult({ changed: false });
     }
-    parsed = parseResponse(text, numbers);
-    if (message.stop_reason === "max_tokens") parsed.errors.push("Çıktı max_tokens sınırında kesildi; daha kısa bir sayfa yaz.");
+    parsed = parseResponse(r.text, numbers);
+    if (r.stop === "truncated") parsed.errors.push("Çıktı token sınırında kesildi; daha kısa bir sayfa yaz.");
     if (!parsed.errors.length) break;
     console.log("Doğrulama hataları:\n - " + parsed.errors.join("\n - "));
-    messages.push({ role: "assistant", content: message.content });
+    messages.push({ role: "assistant", content: r.assistant });
     messages.push({
       role: "user",
       content: "Doğrulayıcı çıktını reddetti:\n- " + parsed.errors.join("\n- ") +
