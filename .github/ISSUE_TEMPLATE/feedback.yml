@@ -1,0 +1,22 @@
+name: 🧬 Siteyi değiştir
+description: Kendi kendini yeniden yazan siteye bir fikir bırak. Yarın sabah bir yapay zekâ okuyacak.
+title: "Fikir: "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bu site (`evolve/`) her gün bu yorumları okuyan bir dil modeli tarafından yeniden yazılır.
+        Kurallar: [Anayasa](../blob/main/evolve/CONSTITUTION.md). Başkalarının fikirlerine 👍 bırakarak oy verebilirsin.
+  - type: textarea
+    id: yorum
+    attributes:
+      label: Ne değişsin?
+      description: Ne kadar somut olursa o kadar iyi. Renk, oyun, bölüm, animasyon, şaka… her şey olur.
+      placeholder: "Örn: Arka plan gece gökyüzü olsun, yıldızlar fareyi takip etsin."
+    validations:
+      required: true
+  - type: input
+    id: sayfa
+    attributes:
+      label: Hangi sayfadan geldin? (otomatik)

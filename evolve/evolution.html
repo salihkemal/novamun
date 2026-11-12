@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evrim Zaman Makinesi</title>
+  <meta name="description" content="Kendi kendini yeniden yazan sitenin gün gün evrimi.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0f; --panel: #14141b; --line: #24242e; --text: #ecebf3; --muted: #9a99a8;
+      --accent: #a58bff; --good: #3ddc84; --bad: #ff7a7a;
+      --serif: "Instrument Serif", Georgia, serif; --mono: "JetBrains Mono", ui-monospace, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) { --bg: #f6f5f1; --panel: #fff; --line: #e4e2dc; --text: #16151c; --muted: #6b6a75; --accent: #5b3fe0; --good: #13914b; --bad: #c63b3b; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.55 var(--sans); }
+    a { color: var(--accent); }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 16px 80px; }
+    header { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+    h1 { font: 400 clamp(40px, 7vw, 76px)/0.95 var(--serif); margin: 0; letter-spacing: -0.01em; }
+    h1 em { color: var(--accent); }
+    .lede { color: var(--muted); max-width: 520px; margin: 12px 0 0; }
+    .stats { display: flex; gap: 22px; font-family: var(--mono); }
+    .stat b { display: block; font-size: 28px; font-weight: 600; }
+    .stat span { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+
+    .machine { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+    .bar { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .bar button { font: 600 13px var(--sans); color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; cursor: pointer; min-width: 38px; }
+    .bar button:hover { border-color: var(--accent); }
+    .bar button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .bar button:focus-visible, input:focus-visible, .card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .slider { flex: 1 1 200px; display: flex; align-items: center; gap: 10px; min-width: 180px; }
+    input[type=range] { flex: 1; accent-color: var(--accent); }
+    .daylabel { font: 600 13px var(--mono); white-space: nowrap; min-width: 64px; text-align: right; }
+    .seg { display: flex; gap: 4px; }
+    .stage { position: relative; height: min(70vh, 640px); background: repeating-conic-gradient(var(--line) 0 25%, transparent 0 50%) 0 0 / 20px 20px; overflow: hidden; }
+    .stage iframe { position: absolute; top: 0; left: 50%; border: 0; background: #fff; transform-origin: top center; }
+    .stage .msg { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-family: var(--mono); font-size: 13px; text-align: center; padding: 16px; }
+    .caption { padding: 16px 18px 18px; display: grid; gap: 6px; border-top: 1px solid var(--line); }
+    .caption h2 { font: 400 28px/1.1 var(--serif); margin: 0; }
+    .caption .date { font: 12px var(--mono); color: var(--muted); }
+    .caption p { margin: 0; max-width: 760px; }
+    .caption .links { display: flex; gap: 16px; font-size: 13px; flex-wrap: wrap; }
+
+    h3 { font: 400 32px var(--serif); margin: 48px 0 16px; }
+    .timeline { list-style: none; padding: 0; margin: 0; position: relative; }
+    .timeline::before { content: ""; position: absolute; left: 15px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+    .card { position: relative; margin: 0 0 14px 40px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; cursor: pointer; }
+    .card:hover { border-color: var(--accent); }
+    .card.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+    .card::before { content: ""; position: absolute; left: -31px; top: 18px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+    .card.active::before { background: var(--accent); }
+    .card .top { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+    .card .n { font: 600 12px var(--mono); color: var(--accent); }
+    .card .t { font-weight: 600; }
+    .card .d { font: 12px var(--mono); color: var(--muted); margin-left: auto; }
+    .card p { margin: 6px 0 0; color: var(--muted); }
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .tag { font-size: 12px; border-radius: 999px; padding: 2px 9px; border: 1px solid var(--line); text-decoration: none; color: var(--text); }
+    .tag.ok { border-color: color-mix(in srgb, var(--good) 50%, transparent); }
+    .tag.no { border-color: color-mix(in srgb, var(--bad) 50%, transparent); color: var(--muted); }
+    footer { margin-top: 48px; color: var(--muted); font-size: 13px; display: flex; gap: 18px; flex-wrap: wrap; }
+    @media (max-width: 600px) { .stats { gap: 16px; } .stat b { font-size: 22px; } .stage { height: 62vh; } }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Evrim <em>zaman makinesi</em></h1>
+        <p class="lede">Bu site her gün ziyaretçi yorumlarını okuyan bir yapay zekâ tarafından yeniden yazılıyor. Her gün git geçmişinde saklı; kaydırıcıyı sürükle, sitenin nasıl evrildiğini izle.</p>
+      </div>
+      <div class="stats" aria-live="polite">
+        <div class="stat"><b id="sDays">–</b><span>gün</span></div>
+        <div class="stat"><b id="sOk">–</b><span>uygulanan</span></div>
+        <div class="stat"><b id="sNo">–</b><span>reddedilen</span></div>
+      </div>
+    </header>
+
+    <section class="machine" aria-label="Zaman makinesi">
+      <div class="bar">
+        <button id="prev" aria-label="Önceki gün">←</button>
+        <button id="play" aria-pressed="false">▶ Oynat</button>
+        <button id="next" aria-label="Sonraki gün">→</button>
+        <div class="slider">
+          <input type="range" id="range" min="0" max="0" value="0" aria-label="Gün seç">
+          <span class="daylabel" id="dayLabel">Gün 0</span>
+        </div>
+        <div class="seg" role="group" aria-label="Görünüm">
+          <button id="vDesk" aria-pressed="true" title="Masaüstü">🖥</button>
+          <button id="vMob" aria-pressed="false" title="Telefon">📱</button>
+        </div>
+      </div>
+      <div class="stage" id="stage"><div class="msg" id="stageMsg">Yükleniyor…</div></div>
+      <div class="caption">
+        <span class="date" id="cDate"></span>
+        <h2 id="cTitle"></h2>
+        <p id="cSummary"></p>
+        <div class="links" id="cLinks"></div>
+      </div>
+    </section>
+
+    <h3>Günlük</h3>
+    <ol class="timeline" id="timeline" reversed></ol>
+
+    <footer>
+      <a href="./">← Sitenin bugünkü hâli</a>
+      <a id="lawLink" href="#" target="_blank" rel="noopener">Anayasa</a>
+      <a id="ideasLink" href="#" target="_blank" rel="noopener">Bekleyen fikirler</a>
+      <a id="historyLink" href="#" target="_blank" rel="noopener">Tüm commit geçmişi</a>
+    </footer>
+  </div>
+
+<script>
+(async () => {
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const here = new URL("./", location.href);
+
+  const [cfg, log] = await Promise.all([
+    fetch("config.json").then((r) => r.json()),
+    fetch("evolution.json", { cache: "no-cache" }).then((r) => r.json()),
+  ]);
+  const gh = `https://github.com/${cfg.owner}/${cfg.repo}`;
+  $("lawLink").href = `${gh}/blob/${cfg.branch}/${cfg.dir}/CONSTITUTION.md`;
+  $("ideasLink").href = `${gh}/issues?q=is%3Aopen+label%3A${cfg.label}`;
+  $("historyLink").href = `${gh}/commits/${cfg.branch}/${cfg.dir}/index.html`;
+
+  const days = [...log].sort((a, b) => a.day - b.day);
+  $("sDays").textContent = days[days.length - 1].day;
+  $("sOk").textContent = days.reduce((n, d) => n + (d.addressed?.length || 0), 0);
+  $("sNo").textContent = days.reduce((n, d) => n + (d.declined?.length || 0), 0);
+
+  // Map "Gün N: ..." commits that touched index.html to their SHA.
+  const shaByDay = new Map();
+  try {
+    const key = "evolve-commits";
+    let commits;
+    try { const c = JSON.parse(sessionStorage.getItem(key)); if (c && Date.now() - c.t < 10 * 60e3) commits = c.v; } catch {}
+    if (!commits) {
+      commits = [];
+      for (let page = 1; page <= 10; page++) {
+        const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/commits?sha=${cfg.branch}&path=${cfg.dir}/index.html&per_page=100&page=${page}`);
+        if (!r.ok) throw new Error(r.status);
+        const batch = await r.json();
+        commits.push(...batch.map((c) => ({ sha: c.sha, msg: c.commit.message.split("\n")[0] })));
+        if (batch.length < 100) break;
+      }
+      try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), v: commits })); } catch {}
+    }
+    // Oldest first so the first commit claiming a day wins; later manual fixes don't override it.
+    for (const c of commits.reverse()) {
+      const m = c.msg.match(/^(?:Gün|Day)\s+(\d+)\s*:/i);
+      if (m && !shaByDay.has(+m[1])) shaByDay.set(+m[1], c.sha);
+    }
+  } catch (e) {
+    console.warn("Commit geçmişi alınamadı (GitHub API sınırı olabilir):", e);
+  }
+
+  const latestDay = days[days.length - 1].day;
+  const htmlCache = new Map();
+  async function pageFor(day) {
+    if (htmlCache.has(day)) return htmlCache.get(day);
+    const sha = shaByDay.get(day);
+    let url;
+    if (sha) url = `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${sha}/${cfg.dir}/index.html`;
+    else if (day === latestDay) url = new URL("index.html", here).href;
+    else return null;
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    let html = await r.text();
+    // Resolve relative assets against the live folder; the shell itself stays silent in an iframe.
+    html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${here.href}">`);
+    htmlCache.set(day, html);
+    return html;
+  }
+
+  // ----- stage -----
+  const stage = $("stage");
+  let iframe = null, mode = stage.clientWidth < 700 ? "mob" : "desk";
+  $("vDesk").setAttribute("aria-pressed", mode === "desk");
+  $("vMob").setAttribute("aria-pressed", mode === "mob");
+  function fit() {
+    if (!iframe) return;
+    const W = stage.clientWidth, H = stage.clientHeight;
+    const vw = mode === "desk" ? Math.max(1280, W) : 390;
+    const scale = Math.min(1, W / vw);
+    iframe.style.width = vw + "px";
+    iframe.style.height = H / scale + "px";
+    iframe.style.transform = `translateX(-50%) scale(${scale})`;
+  }
+  new ResizeObserver(fit).observe(stage);
+  for (const [id, m] of [["vDesk", "desk"], ["vMob", "mob"]]) {
+    $(id).addEventListener("click", () => {
+      mode = m;
+      $("vDesk").setAttribute("aria-pressed", m === "desk");
+      $("vMob").setAttribute("aria-pressed", m === "mob");
+      fit();
+    });
+  }
+
+  // ----- selection -----
+  const range = $("range");
+  range.min = 0; range.max = days.length - 1; range.value = days.length - 1;
+  let current = -1, token = 0;
+  async function show(i) {
+    i = Math.max(0, Math.min(days.length - 1, i));
+    if (i === current) return;
+    current = i;
+    const d = days[i], my = ++token;
+    range.value = i;
+    $("dayLabel").textContent = `Gün ${d.day}`;
+    $("cDate").textContent = `GÜN ${d.day} · ${d.date}${d.model ? " · " + d.model : ""}`;
+    $("cTitle").textContent = d.title;
+    $("cSummary").textContent = d.summary;
+    const sha = shaByDay.get(d.day);
+    const prevSha = shaByDay.get(days[i - 1]?.day);
+    $("cLinks").innerHTML = [
+      sha && `<a href="${gh}/commit/${sha}" target="_blank" rel="noopener">Commit ${sha.slice(0, 7)} ↗</a>`,
+      sha && prevSha && `<a href="${gh}/compare/${prevSha}...${sha}" target="_blank" rel="noopener">Önceki güne göre fark ↗</a>`,
+      ...(d.addressed || []).map((a) => `<a href="${gh}/issues/${a.issue}" target="_blank" rel="noopener">✓ #${a.issue}</a>`),
+    ].filter(Boolean).join("");
+    document.querySelectorAll(".card").forEach((c) => c.classList.toggle("active", +c.dataset.i === i));
+
+    const html = await pageFor(d.day);
+    if (my !== token) return;
+    stage.innerHTML = "";
+    if (!html) {
+      stage.innerHTML = `<div class="msg">Bu günün kopyası şu an getirilemedi.<br>GitHub API sınırına takılmış olabilir — biraz sonra tekrar dene.</div>`;
+      iframe = null;
+      return;
+    }
+    iframe = document.createElement("iframe");
+    iframe.title = `Gün ${d.day} sürümü`;
+    iframe.setAttribute("sandbox", "allow-scripts");
+    iframe.srcdoc = html;
+    stage.appendChild(iframe);
+    fit();
+    // Warm up neighbours so scrubbing feels instant.
+    pageFor(days[i - 1]?.day); pageFor(days[i + 1]?.day);
+  }
+
+  range.addEventListener("input", () => show(+range.value));
+  $("prev").addEventListener("click", () => { stop(); show(current - 1); });
+  $("next").addEventListener("click", () => { stop(); show(current + 1); });
+  document.addEventListener("keydown", (e) => {
+    if (e.target.closest("input, textarea")) return;
+    if (e.key === "ArrowLeft") { stop(); show(current - 1); }
+    if (e.key === "ArrowRight") { stop(); show(current + 1); }
+  });
+
+  let timer = null;
+  function stop() { clearInterval(timer); timer = null; $("play").setAttribute("aria-pressed", "false"); $("play").textContent = "▶ Oynat"; }
+  $("play").addEventListener("click", () => {
+    if (timer) return stop();
+    if (current >= days.length - 1) show(0);
+    $("play").setAttribute("aria-pressed", "true"); $("play").textContent = "❚❚ Durdur";
+    timer = setInterval(() => (current >= days.length - 1 ? stop() : show(current + 1)), 1800);
+  });
+
+  // ----- timeline -----
+  $("timeline").innerHTML = days.map((d, i) => `
+    <li class="card" tabindex="0" data-i="${i}">
+      <div class="top"><span class="n">GÜN ${d.day}</span><span class="t">${esc(d.title)}</span><span class="d">${esc(d.date)}</span></div>
+      <p>${esc(d.summary)}</p>
+      ${(d.addressed?.length || d.declined?.length) ? `<div class="tags">
+        ${(d.addressed || []).map((a) => `<a class="tag ok" href="${gh}/issues/${a.issue}" target="_blank" rel="noopener">✓ ${esc(a.title)}</a>`).join("")}
+        ${(d.declined || []).map((x) => `<a class="tag no" href="${gh}/issues/${x.issue}" target="_blank" rel="noopener" title="${esc(x.reason)}">✗ ${esc(x.title)}</a>`).join("")}
+      </div>` : ""}
+    </li>`).reverse().join("");
+  $("timeline").addEventListener("click", (e) => {
+    if (e.target.closest("a")) return;
+    const card = e.target.closest(".card");
+    if (card) { stop(); show(+card.dataset.i); window.scrollTo({ top: 0, behavior: "smooth" }); }
+  });
+  $("timeline").addEventListener("keydown", (e) => {
+    const card = e.target.closest(".card");
+    if (card && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); card.click(); }
+  });
+
+  show(days.length - 1);
+})().catch((e) => {
+  console.error(e);
+  document.getElementById("stageMsg").textContent = "Evrim verisi yüklenemedi.";
+});
+</script>
+</body>
+</html>

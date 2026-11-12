@@ -1,0 +1,14 @@
+{
+  "name": "evolve-scripts",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "evolve": "node evolve.mjs",
+    "notify": "node evolve.mjs --notify",
+    "check": "node validate.mjs ../index.html"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0"
+  }
+}

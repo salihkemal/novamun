@@ -1,0 +1,70 @@
+name: Evolve
+
+# Every day the site reads its feedback issues and rewrites evolve/index.html.
+# Keep the cron time in sync with EVOLVE_UTC in evolve/shell.js.
+on:
+  schedule:
+    - cron: "17 6 * * *" # 06:17 UTC = 09:17 Türkiye
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Sadece dene, commit atma"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: evolve
+  cancel-in-progress: false
+
+jobs:
+  evolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: evolve/scripts
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      EVOLVE_MODEL: ${{ vars.EVOLVE_MODEL || 'claude-opus-5-5' }}
+      EVOLVE_EFFORT: ${{ vars.EVOLVE_EFFORT || 'high' }}
+      EVOLVE_QUIET: ${{ vars.EVOLVE_QUIET || 'improvise' }}
+      EVOLVE_OUT: ${{ runner.temp }}/evolve
+      SITE_URL: ${{ vars.EVOLVE_SITE_URL || 'https://novamun.org/evolve/' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: evolve/scripts/package-lock.json
+
+      - run: npm ci
+
+      - name: Evolve
+        id: evolve
+        run: node evolve.mjs ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      - name: Commit & push
+        id: commit
+        if: steps.evolve.outputs.changed == 'true' && !inputs.dry_run
+        working-directory: .
+        run: |
+          node evolve/scripts/validate.mjs evolve/index.html
+          git config user.name "evolve-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evolve/index.html evolve/evolution.json
+          git commit -F "$EVOLVE_OUT/commit-message.txt"
+          for i in 1 2 3 4; do git push && break; sleep $((i * 5)); git pull --rebase; done
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Reply to issues
+        if: steps.commit.outputs.sha
+        env:
+          COMMIT_SHA: ${{ steps.commit.outputs.sha }}
+        run: node evolve.mjs --notify

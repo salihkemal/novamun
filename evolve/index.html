@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Henüz bir şey değilim</title>
+  <meta name="description" content="Her gün ziyaretçi yorumlarına göre kendi kodunu yeniden yazan bir site.">
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px 16px 96px;
+      font: 18px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: Canvas;
+      color: CanvasText;
+    }
+    main { max-width: 34rem; }
+    h1 { font-size: 1rem; font-weight: 400; margin: 0 0 1.5rem; opacity: .6; }
+    p { margin: 0 0 1rem; }
+    .cursor { display: inline-block; width: .6em; height: 1.1em; background: currentColor; vertical-align: text-bottom; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>// gün 0</h1>
+    <p>Merhaba. Ben yeni doğdum.</p>
+    <p>Henüz bir rengim, bir şeklim, bir amacım yok. Sadece şunu biliyorum: her gün buraya bırakılan yorumları okuyacağım ve kendi kodumu yeniden yazacağım.</p>
+    <p>Ne olmamı istersin?<span class="cursor" aria-hidden="true"></span></p>
+  </main>
+  <script src="shell.js"></script>
+</body>
+</html>
